@@ -1,3 +1,5 @@
+#include "only_compile_used_libs.h"
+
 #include "vertex_array.h"
 #include "program.h"
 #include "texture.h"
@@ -5,6 +7,7 @@
 #include "window.h"
 
 sgl::window::window(size32_t width, size32_t height, lpcstr title, bool resizeable)
+    : _time_curr{}, _time_prev{}
 {
     glfwWindowHint(GLFW_RESIZABLE, resizeable);
 
@@ -41,6 +44,9 @@ void sgl::window::clear() const
 
 void sgl::window::update()
 {
+    _time_prev = _time_curr;
+    _time_curr = glfwGetTime();
+
     glfwSwapBuffers(_gl_window);
     glfwPollEvents();
 }
@@ -76,4 +82,9 @@ void sgl::window::draw(program prog, vertex_array vao, size32_t polygons)
     BIND2(prog, vao, 1);
     glDrawArrays(GL_TRIANGLES, 0, polygons);
     BIND2(prog, vao, 0);
+}
+
+double sgl::window::delta_time() const
+{
+    return _time_curr - _time_prev;
 }
