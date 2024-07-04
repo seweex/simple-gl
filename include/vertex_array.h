@@ -14,16 +14,20 @@ namespace sgl
 
     public:
 
+        friend context;
+
         void initialize() override;
         void destroy() override;
         void bind(bool is_using = true) const override;
 
-        void bind_buffer(buffer& buff, size32_t index, size32_t vertex_size);
+        void bind_buffer(buffer& buff, size32_t index, size32_t attribut_size);
         void unbind_buffer(size32_t index);
         buffer& buffer(size32_t index);
 
-        vertex_array ref();
+        detail::instance_ref<vertex_array_i> ref();
     };
+    
+    typedef detail::instance_ref<vertex_array_i> vertex_array;
 }
 
 #endif

@@ -29,8 +29,10 @@ namespace sgl
 
         void compute(glm::i32vec3 groups, bool barrier);
 
-        program ref();
+        detail::instance_ref<program_i> ref();
     };
+
+    typedef detail::instance_ref<program_i> program;
 }
 
 #endif 

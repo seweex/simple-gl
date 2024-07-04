@@ -16,7 +16,7 @@ namespace sgl
         context(u32 mj, u32 mn, bool compat);
         ~context();
 
-        template <typename T> detail::instance_ref<T> make()
+        template <typename T> detail::instance_ref<typename T::type> make()
         {
             static_assert(std::is_base_of<detail::i_instance, typename T::type>::value, "invalid T type");
 
@@ -34,8 +34,8 @@ namespace sgl
             static_assert(std::is_base_of<detail::i_instance, typename T::type>::value, "invalid T type");
 
             obj->destroy();
-            _instances.erase(&(*obj.get()));
-            delete &(*obj.get());
+            _instances.erase(&obj.get());
+            delete &obj.get();
         }
     };
 }

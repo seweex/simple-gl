@@ -73,14 +73,14 @@ void sgl::window::draw(program prog, vertex_array vao, std::vector<u32> indices)
 void sgl::window::draw(program prog, texture tex, vertex_array vao, size32_t polygons)
 {
     BIND3(prog, tex, vao, 1);
-    glDrawArrays(GL_TRIANGLES, 0, polygons);
+    glDrawArrays(GL_TRIANGLES, 0, polygons * 3);
     BIND3(prog, tex, vao, 0);
 }
 
 void sgl::window::draw(program prog, vertex_array vao, size32_t polygons)
 {
     BIND2(prog, vao, 1);
-    glDrawArrays(GL_TRIANGLES, 0, polygons);
+    glDrawArrays(GL_TRIANGLES, 0, polygons * 3);
     BIND2(prog, vao, 0);
 }
 

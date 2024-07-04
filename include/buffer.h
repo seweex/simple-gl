@@ -1,6 +1,7 @@
 #ifndef __buffer_h__
 #define __buffer_h__
 
+#include "instances.hpp"
 #include "config.h"
 
 namespace sgl
@@ -51,12 +52,14 @@ namespace sgl
 
         size32_t size() const;
 
-        buffer ref();
+        detail::instance_ref<buffer_i> ref();
 
         static void set_binding_target(binding_target target) noexcept;
     private:
         static binding_target current_binding_target; 
     };
+
+    typedef detail::instance_ref<buffer_i> buffer;
 }
 
 #endif

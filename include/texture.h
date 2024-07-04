@@ -54,8 +54,10 @@ namespace sgl
             color_mode format, lpc pixels, 
             pixel_mode pxformat = unsigned_byte);
 
-        texture ref();
+        detail::instance_ref<texture_i> ref();
     };
+
+    typedef detail::instance_ref<texture_i> texture;
 }
 
 #endif

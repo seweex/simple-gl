@@ -4,9 +4,9 @@
 #include "GLFW/glfw3.h"
 
 #ifdef _WIN64
-#pragma comment(lib, "../libs/x64/glfw3.lib")
+#pragma comment(lib, "x64/glfw3.lib")
 #elif _WIN32
-#pragma comment(lib, "../libs/x32/glfw3.lib")
+#pragma comment(lib, "x32/glfw3.lib")
 #endif  
 
 #include "glm/vec2.hpp"
@@ -49,18 +49,6 @@ namespace sgl
     constexpr vec4 TEXTURE_BORDER_COLOR{ ZERO_VEC4 };
 
     class context;
-
-    class buffer_i;
-    class shader_i;
-    class program_i;
-    class texture_i;
-    class vertex_array_i;
-
-    typedef detail::instance_ref<buffer_i> buffer;
-    typedef detail::instance_ref<shader_i> shader;
-    typedef detail::instance_ref<program_i> program;
-    typedef detail::instance_ref<texture_i> texture;
-    typedef detail::instance_ref<vertex_array_i> vertex_array;
 }
 
 #endif

@@ -1,7 +1,5 @@
-#define _GLFW_WIN32
-
-#include "buffer.h"
 #include "config.h"
+#include "buffer.h"
 #include "context.hpp"
 #include "instances.hpp"
 #include "program.h"

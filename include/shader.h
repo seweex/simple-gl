@@ -25,7 +25,7 @@ namespace sgl
         int compile(lpcstr source) const;
         std::string log() const;
         
-        shader ref();
+        detail::instance_ref<shader_i> ref();
 
     private:
 
@@ -35,6 +35,8 @@ namespace sgl
 
         void bind(bool = true) const override;
     };
+
+    typedef detail::instance_ref<shader_i> shader;
 }
 
 #endif

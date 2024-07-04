@@ -1,4 +1,5 @@
 #include "only_compile_used_libs.h"
+#include "instances.hpp"
 #include "vertex_array.h"
 
 void sgl::vertex_array_i::initialize()
@@ -17,13 +18,13 @@ void sgl::vertex_array_i::bind(bool is_using) const
     glBindVertexArray(is_using ? _handle : 0);
 }
 
-void sgl::vertex_array_i::bind_buffer(sgl::buffer &buff, size32_t index, size32_t vertex_size)
+void sgl::vertex_array_i::bind_buffer(sgl::buffer &buff, size32_t index, size32_t attribut_size)
 {
     bind();
     buff->bind();
 
     glEnableVertexAttribArray(index);
-    glVertexAttribPointer(index, vertex_size, GL_UNSIGNED_BYTE, GL_FALSE, 0, 0);
+    glVertexAttribPointer(index, attribut_size / sizeof(float), GL_FLOAT, 0, 0, 0);
 
     buff->bind(0);
     bind(0);

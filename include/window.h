@@ -2,6 +2,9 @@
 #define __window_h__
 
 #include "config.h"
+#include "vertex_array.h"
+#include "texture.h"
+#include "program.h"
 
 namespace sgl
 {
