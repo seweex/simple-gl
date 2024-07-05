@@ -56,11 +56,18 @@ bool sgl::window::closing() const
     return glfwWindowShouldClose(_gl_window);
 }
 
-void sgl::window::draw(program prog, texture tex, vertex_array vao, std::vector<u32> indices)
+void sgl::window::draw(program prog, std::vector<texture> texs, vertex_array vao, std::vector<u32> indices)
 {
-    BIND3(prog, tex, vao, 1);
+    std::vector<u32> texsHandlers;
+    texsHandlers.reserve(texs.size());
+
+    for (auto& tex : texs)
+        texsHandlers.push_back(tex->handle());
+
+    BIND2(prog, vao, 1);
+    glBindTextures(0, texs.size(), &texsHandlers[0]);
     glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, &indices[0]);
-    BIND3(prog, tex, vao, 0);
+    BIND2(prog, vao, 0);
 }
 
 void sgl::window::draw(program prog, vertex_array vao, std::vector<u32> indices)
@@ -70,11 +77,18 @@ void sgl::window::draw(program prog, vertex_array vao, std::vector<u32> indices)
     BIND2(prog, vao, 0);
 }
 
-void sgl::window::draw(program prog, texture tex, vertex_array vao, size32_t polygons)
+void sgl::window::draw(program prog, std::vector<texture> texs, vertex_array vao, size32_t polygons)
 {
-    BIND3(prog, tex, vao, 1);
+    std::vector<u32> texsHandlers;
+    texsHandlers.reserve(texs.size());
+
+    for (auto& tex : texs)
+        texsHandlers.push_back(tex->handle());
+
+    BIND2(prog, vao, 1);
+    glBindTextures(0, texs.size(), &texsHandlers[0]);
     glDrawArrays(GL_TRIANGLES, 0, polygons * 3);
-    BIND3(prog, tex, vao, 0);
+    BIND2(prog, vao, 0);
 }
 
 void sgl::window::draw(program prog, vertex_array vao, size32_t polygons)
