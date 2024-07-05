@@ -27,6 +27,9 @@ namespace sgl
         template<typename T>
         void uniform(lpcstr name, T data);
 
+        template<typename T>
+        void uniform(lpcstr name, size32_t size, const T* data);
+
         void compute(glm::i32vec3 groups, bool barrier);
 
         detail::instance_ref<program_i> ref();

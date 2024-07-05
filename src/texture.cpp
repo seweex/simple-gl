@@ -27,7 +27,7 @@ void sgl::texture_i::smooth(bool value)
 
     int smooth_min;
     glGetTexParameteriv(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, &smooth_min);
-    bool using_maipmaps = smooth_min == GL_LINEAR_MIPMAP_LINEAR || GL_LINEAR_MIPMAP_NEAREST;
+    bool using_maipmaps = smooth_min == GL_LINEAR_MIPMAP_LINEAR or smooth_min == GL_LINEAR_MIPMAP_NEAREST;
 
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, value ? GL_LINEAR : GL_NEAREST);
 
@@ -44,13 +44,13 @@ void sgl::texture_i::mipmaps(bool use)
     bind();
     int min_filter_value;
     glGetTexParameteriv(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, &min_filter_value);
-    bool smooth = min_filter_value == GL_LINEAR_MIPMAP_LINEAR || GL_LINEAR;
+    bool smooth = (min_filter_value == GL_LINEAR_MIPMAP_LINEAR or min_filter_value == GL_LINEAR);
 
     if (smooth)
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, use ? GL_LINEAR_MIPMAP_LINEAR : GL_LINEAR);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, use ? GL_NEAREST_MIPMAP_LINEAR : GL_LINEAR);
     else 
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, use ? GL_LINEAR_MIPMAP_NEAREST : GL_NEAREST);
-
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, use ? GL_LINEAR_MIPMAP_LINEAR : GL_NEAREST);
+    
     bind(0);
 }
 
@@ -69,6 +69,7 @@ void sgl::texture_i::image(size32_t width, size32_t height, color_mode format, l
     bind(); 
 
     glTexImage2D(GL_TEXTURE_2D, 0, format, width, height, 0, format, pxformat, pixels);
+    glGenerateMipmap(GL_TEXTURE_2D);
 
     bind(0);
 }

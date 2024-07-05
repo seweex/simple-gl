@@ -40,12 +40,12 @@ namespace sgl
         bool closing() const;
 
         void draw(program prog,
-            texture tex, vertex_array vao, std::vector<u32> indices);
+            std::vector<texture> texs, vertex_array vao, std::vector<u32> indices);
         void draw(program prog,
             vertex_array vao, std::vector<u32> indices);
 
         void draw(program prog,
-            texture tex, vertex_array vao, size32_t polygons);
+            std::vector<texture> texs, vertex_array vao, size32_t polygons);
         void draw(program prog,
             vertex_array vao, size32_t polygons);
 
