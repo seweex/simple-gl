@@ -4,25 +4,29 @@
 #include "texture.h"
 #include "program.h"
 
-sgl::context::context(u32 mj, u32 mn, bool compat)
+using namespace sgl;
+using sgl::context;
+
+context::context(u32 mj, u32 mn, bool compat)
 {
     glfwInit();
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, mj);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, mn);
-    glfwWindowHint(GLFW_OPENGL_PROFILE, compat? GLFW_OPENGL_COMPAT_PROFILE : GLFW_OPENGL_CORE_PROFILE);
+    glfwWindowHint(GLFW_OPENGL_PROFILE, compat ? GLFW_OPENGL_COMPAT_PROFILE : GLFW_OPENGL_CORE_PROFILE);
 }
 
-sgl::context::~context()
+context::~context() _SGL_NOTHROW
 {
     glfwTerminate();
 
-    for(auto& inst : _instances) {
+    for(auto& inst : _instances) 
+    {
         inst->destroy();
         delete inst;
     }
 }
 
-sgl::window sgl::context::make(size32_t width, size32_t height, lpcstr title, bool resizeable)
+window context::make(size32_t width, size32_t height, lpcstr title, bool resizeable)
 {
     sgl::window wnd{width, height, title, resizeable};
     gladLoadGL();
@@ -31,7 +35,7 @@ sgl::window sgl::context::make(size32_t width, size32_t height, lpcstr title, bo
     return wnd;
 }
 
-sgl::shader sgl::context::make(shader_i::type type)
+shader context::make(shader_i::type type) _SGL_NOTHROW
 {
     shader_i * obj = new shader_i{type};
     obj->initialize();

@@ -7,7 +7,7 @@ namespace sgl
 {
     class texture_i : public detail::i_instance
     {
-        texture_i() = default;
+        texture_i() _SGL_NOTHROW = default;
 
     public:
 
@@ -40,21 +40,20 @@ namespace sgl
             repeat = 0x2901
         };
 
-        void initialize() override;
-        void destroy() override;
-        void bind(bool is_using = true) const;
+        void initialize() _SGL_NOTHROW override;
+        void destroy() _SGL_NOTHROW override;
+        void bind(bool is_using = true) _SGL_SAFE override;
 
-        void smooth(bool value);
-        void mipmaps(bool use);
-
-        void wrapping(wrap_type type);
+        void smooth(bool value) _SGL_NOTHROW;
+        void mipmaps(bool use) _SGL_NOTHROW;
+        void wrapping(wrap_type type) _SGL_NOTHROW;
 
         void image(
             size32_t width, size32_t height,
             color_mode format, lpc pixels, 
-            pixel_mode pxformat = unsigned_byte);
+            pixel_mode pxformat = unsigned_byte) _SGL_NOTHROW;
 
-        detail::instance_ref<texture_i> ref();
+        detail::instance_ref<texture_i> ref() _SGL_NOTHROW;
     };
 
     typedef detail::instance_ref<texture_i> texture;

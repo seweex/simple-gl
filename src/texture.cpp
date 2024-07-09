@@ -1,7 +1,9 @@
 #include "only_compile_used_libs.h"
 #include "texture.h"
 
-void sgl::texture_i::initialize()
+using namespace sgl;
+
+void texture_i::initialize() _SGL_NOTHROW
 {
     glGenTextures(1, &_handle);
     
@@ -10,18 +12,18 @@ void sgl::texture_i::initialize()
     bind(0);
 }
 
-void sgl::texture_i::destroy()
+void texture_i::destroy() _SGL_NOTHROW
 {
     glDeleteTextures(1, &_handle);
     _handle = 0;
 }
 
-void sgl::texture_i::bind(bool is_using) const
+void texture_i::bind(bool is_using) _SGL_SAFE
 {
     glBindTexture(GL_TEXTURE_2D, is_using ? _handle : 0);
 }
 
-void sgl::texture_i::smooth(bool value)
+void texture_i::smooth(bool value) _SGL_NOTHROW
 {
     bind();
 
@@ -39,7 +41,7 @@ void sgl::texture_i::smooth(bool value)
     bind(0);
 }
 
-void sgl::texture_i::mipmaps(bool use)
+void texture_i::mipmaps(bool use) _SGL_NOTHROW
 {
     bind();
     int min_filter_value;
@@ -54,7 +56,7 @@ void sgl::texture_i::mipmaps(bool use)
     bind(0);
 }
 
-void sgl::texture_i::wrapping(wrap_type type)
+void texture_i::wrapping(wrap_type type) _SGL_NOTHROW
 {
     bind(); 
 
@@ -64,7 +66,10 @@ void sgl::texture_i::wrapping(wrap_type type)
     bind(0);
 }
 
-void sgl::texture_i::image(size32_t width, size32_t height, color_mode format, lpc pixels, pixel_mode pxformat)
+void texture_i::image(
+    size32_t width, size32_t height,
+    color_mode format, lpc pixels,
+    pixel_mode pxformat) _SGL_NOTHROW
 {
     bind(); 
 
@@ -74,7 +79,7 @@ void sgl::texture_i::image(size32_t width, size32_t height, color_mode format, l
     bind(0);
 }
 
-sgl::detail::instance_ref<sgl::texture_i> sgl::texture_i::ref()
+texture texture_i::ref() _SGL_NOTHROW
 {
-    return detail::instance_ref<texture_i>(*this);
+    return texture(*this);
 }

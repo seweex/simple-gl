@@ -1,7 +1,7 @@
 #ifndef __compile_libs__
 #define __compile_libs__
 
-#ifdef __config_h__
+#ifdef __sgl_config_h__
 #error "include it before config.h"
 #endif
 

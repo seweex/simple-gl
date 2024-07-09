@@ -2,23 +2,25 @@
 #include "instances.hpp"
 #include "vertex_array.h"
 
-void sgl::vertex_array_i::initialize()
+using namespace sgl;
+
+void vertex_array_i::initialize() _SGL_NOTHROW
 {
     glGenVertexArrays(1, &_handle);
 }
 
-void sgl::vertex_array_i::destroy()
+void vertex_array_i::destroy() _SGL_NOTHROW
 {
     glDeleteVertexArrays(1, &_handle);
     _handle = 0;
 }
 
-void sgl::vertex_array_i::bind(bool is_using) const
+void vertex_array_i::bind(bool is_using) _SGL_SAFE
 {
     glBindVertexArray(is_using ? _handle : 0);
 }
 
-void sgl::vertex_array_i::bind_buffer(sgl::buffer &buff, size32_t index, size32_t attribut_size)
+void vertex_array_i::bind_buffer(sgl::buffer &buff, size32_t index, size32_t attribut_size) _SGL_NOTHROW
 {
     bind();
     buff->bind();
@@ -32,7 +34,7 @@ void sgl::vertex_array_i::bind_buffer(sgl::buffer &buff, size32_t index, size32_
     _binded_buffers.insert({index, buff});
 }
 
-void sgl::vertex_array_i::unbind_buffer(size32_t index)
+void vertex_array_i::unbind_buffer(size32_t index) _SGL_NOTHROW
 {
     bind();
     buffer(index)->bind();
@@ -45,12 +47,23 @@ void sgl::vertex_array_i::unbind_buffer(size32_t index)
     _binded_buffers.erase(index);
 }
 
-sgl::buffer &sgl::vertex_array_i::buffer(size32_t index)
+buffer &vertex_array_i::buffer(size32_t index)
 {
-    return _binded_buffers[index];
+    if (_binded_buffers.find(index) == _binded_buffers.end())
+        throw std::out_of_range("buffer on 'index' doesn't exist");
+
+    return _binded_buffers.at(index);
 }
 
-sgl::detail::instance_ref<sgl::vertex_array_i> sgl::vertex_array_i::ref()
+cref<sgl::buffer> vertex_array_i::buffer(size32_t index) const
 {
-    return detail::instance_ref<vertex_array_i>(*this);
+    if (_binded_buffers.find(index) == _binded_buffers.end())
+        throw std::out_of_range("buffer on 'index' doesn't exist");
+
+    return _binded_buffers.at(index);
+}
+
+vertex_array vertex_array_i::ref() _SGL_NOTHROW
+{
+    return vertex_array(*this);
 }

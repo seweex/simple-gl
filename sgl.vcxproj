@@ -32,6 +32,7 @@
     <ClInclude Include="include\window.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="program_uniforms.cpp" />
     <ClCompile Include="src\buffer.cpp" />
     <ClCompile Include="src\context.cpp" />
     <ClCompile Include="src\glad.c" />

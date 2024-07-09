@@ -8,7 +8,7 @@ namespace sgl
 {
     class buffer_i : public detail::i_instance
     {
-        buffer_i() = default;
+        buffer_i() _SGL_NOTHROW = default;
 
     public:
 
@@ -39,23 +39,21 @@ namespace sgl
             transform_feedback_buffer = 0x8C8E
         };
 
-        friend context;
+        void initialize() _SGL_NOTHROW override;
+        void destroy() _SGL_NOTHROW override;
+        void bind(bool is_using = true) _SGL_SAFE override;
 
-        void initialize() override;
-        void destroy() override;
-        void bind(bool is_using = true) const override;
+        void data(size32_t size, lpc data, usage_hint usage = stream_draw) _SGL_NOTHROW;
+        void data(size32_t size, lpc data, size32_t offset) _SGL_NOTHROW;
+        void copy(detail::instance_ref<buffer_i>& to) _SGL_NOTHROW;
 
-        void data(size32_t size, lpc data, usage_hint usage = stream_draw);
-        void data(size32_t size, lpc data, size32_t offset);
+        size32_t size() _SGL_SAFE;
+        detail::instance_ref<buffer_i> ref() _SGL_NOTHROW;
 
-        void copy(buffer_i& to);
+        static void set_binding_target(binding_target target) _SGL_NOTHROW;
 
-        size32_t size() const;
-
-        detail::instance_ref<buffer_i> ref();
-
-        static void set_binding_target(binding_target target) noexcept;
     private:
+
         static binding_target current_binding_target; 
     };
 

@@ -19,21 +19,21 @@ namespace sgl
             compute = 0x91B9
         };
 
-        void initialize() override;
-        void destroy() override;
+        void initialize() _SGL_NOTHROW override;
+        void destroy() _SGL_NOTHROW override;
 
-        int compile(lpcstr source) const;
-        std::string log() const;
+        int compile(lpcstr source) _SGL_NOTHROW;
+        std::string log() _SGL_SAFE;
         
-        detail::instance_ref<shader_i> ref();
+        detail::instance_ref<shader_i> ref() _SGL_NOTHROW;
 
     private:
 
         type _type;
 
-        shader_i(type tp);
+        shader_i(type tp) _SGL_NOTHROW;
 
-        void bind(bool = true) const override;
+        void bind(bool = true) _SGL_SAFE override;
     };
 
     typedef detail::instance_ref<shader_i> shader;

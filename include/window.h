@@ -15,13 +15,11 @@ namespace sgl
         double _time_prev;
         double _time_curr;
 
-        window(size32_t width, size32_t height, lpcstr title, bool resizeable);
+        window(size32_t width, size32_t height, lpcstr title, bool resizeable) _SGL_NOTHROW;
 
     public:
 
         friend sgl::context;
-
-        void destroy();
 
         enum param : u32
         {
@@ -30,14 +28,17 @@ namespace sgl
             front_face = 0xb46
         };
 
-        void set(param pm, bool value);
-        void viewport(vec2 size);
+        void destroy() _SGL_NOTHROW;
 
-        void clear(vec3 color);
-        void clear() const;
+        void key_callback(winkey_fn func) _SGL_NOTHROW;
+        void set(param pm, bool value) _SGL_NOTHROW;
+        void viewport(vec2 size) _SGL_NOTHROW;
 
-        void update();
-        bool closing() const;
+        void clear(vec3 color) _SGL_NOTHROW;
+        void clear() _SGL_NOTHROW;
+
+        void update() _SGL_NOTHROW;
+        bool closing() _SGL_SAFE;
 
         void draw(program prog,
             std::vector<texture> texs, vertex_array vao, std::vector<u32> indices);
@@ -45,11 +46,11 @@ namespace sgl
             vertex_array vao, std::vector<u32> indices);
 
         void draw(program prog,
-            std::vector<texture> texs, vertex_array vao, size32_t polygons);
+            std::vector<texture> texs, vertex_array vao, size32_t polygons, size32_t first = 0);
         void draw(program prog,
-            vertex_array vao, size32_t polygons);
+            vertex_array vao, size32_t polygons, size32_t first = 0);
 
-        double delta_time() const;
+        double delta_time() _SGL_SAFE;
     };
 }
 

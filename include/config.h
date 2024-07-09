@@ -1,13 +1,19 @@
-#ifndef __config_h__
-#define __config_h__
+#ifndef __sgl_config_h__
+#define __sgl_config_h__
 
 #include "GLFW/glfw3.h"
 
 #ifdef _WIN64
-#pragma comment(lib, "x64/glfw3.lib")
+    #pragma comment(lib, "x64/glfw3.lib")
+    #pragma comment(lib, "x64/sgl.lib")
 #elif _WIN32
-#pragma comment(lib, "x32/glfw3.lib")
+    #pragma comment(lib, "x32/glfw3.lib")
+    #pragma comment(lib, "x32/sgl.lib")
 #endif  
+
+#define _SGL_NOTHROW noexcept
+#define _SGL_SAFE const noexcept
+#define _SGL_TEMPLATE template<>
 
 #include "glm/vec2.hpp"
 #include "glm/vec3.hpp"
@@ -18,6 +24,7 @@
 #include <set>
 #include <vector>
 #include <string>
+#include <stdexcept>
 
 #include "instances.hpp"
 
@@ -33,11 +40,14 @@ namespace sgl
     typedef unsigned size32_t;
     typedef const void* lpc;
     typedef const char* lpcstr;
+    typedef GLFWkeyfun winkey_fn;
 
     using glm::vec2;
     using glm::vec3;
     using glm::vec4;
     using glm::mat4;
+
+    template<typename T> using cref = const T&;
 
     constexpr vec2 ZERO_VEC2{ .0f };
     constexpr vec3 ZERO_VEC3{ .0f };
