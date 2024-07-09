@@ -1,8 +1,13 @@
-#include "instances.hpp"
+#include "config.h"
 
-sgl::detail::i_instance::i_instance() : _handle(0) {}
+using sgl::u32;
+using sgl::detail::i_instance;
 
-unsigned sgl::detail::i_instance::handle() const noexcept
+i_instance::i_instance() _SGL_NOTHROW
+    : _handle(0) 
+{}
+
+u32 i_instance::handle() _SGL_SAFE
 {
     return _handle;
 }

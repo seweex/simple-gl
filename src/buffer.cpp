@@ -1,45 +1,53 @@
 #include "only_compile_used_libs.h"
 #include "buffer.h"
 
-sgl::buffer_i::binding_target sgl::buffer_i::current_binding_target{sgl::buffer_i::binding_target::array_buffer};
+using namespace sgl;
+using sgl::buffer_i;
+using sgl::buffer;
 
-void sgl::buffer_i::initialize()
+/* Static fields */
+
+buffer_i::binding_target buffer_i::current_binding_target{ array_buffer };
+
+/* Funcs */
+
+void buffer_i::initialize() _SGL_NOTHROW
 {
     glCreateBuffers(1, &_handle);
     bind();
-    glBufferData(current_binding_target, sgl::DEFAULT_BUFFER_SIZE, 0, usage_hint::static_draw);
+    glBufferData(current_binding_target, DEFAULT_BUFFER_SIZE, 0, usage_hint::static_draw);
     bind(0);
 }
 
-void sgl::buffer_i::destroy()
+void buffer_i::destroy() _SGL_NOTHROW
 {
     glDeleteBuffers(1, &_handle);
     _handle = 0;
 }
 
-void sgl::buffer_i::bind(bool is_using) const
+void buffer_i::bind(bool is_using) _SGL_SAFE
 {
     glBindBuffer(current_binding_target, is_using ? _handle : 0);
 }
 
-void sgl::buffer_i::data(size32_t size, lpc data, usage_hint usage)
+void buffer_i::data(size32_t size, lpc data, usage_hint usage) _SGL_NOTHROW
 {
     bind();
     glBufferData(current_binding_target, size, data, usage);
     bind(0);
 }
 
-void sgl::buffer_i::data(size32_t size, lpc data, size32_t offset)
+void buffer_i::data(size32_t size, lpc data, size32_t offset) _SGL_NOTHROW
 {
     bind();
     glBufferSubData(current_binding_target, offset, size, data);
     bind(0);
 }
 
-void sgl::buffer_i::copy(buffer_i &to)
+void buffer_i::copy(buffer &to) _SGL_NOTHROW
 {
     glBindBuffer(GL_COPY_READ_BUFFER, this->_handle);
-    glBindBuffer(GL_COPY_WRITE_BUFFER, to._handle);
+    glBindBuffer(GL_COPY_WRITE_BUFFER, to->_handle);
 
     size32_t size = this->size();
     glCopyBufferSubData(GL_COPY_READ_BUFFER, GL_COPY_WRITE_BUFFER, 0, 0, size);
@@ -48,7 +56,7 @@ void sgl::buffer_i::copy(buffer_i &to)
     glBindBuffer(GL_COPY_WRITE_BUFFER, 0);
 }
 
-sgl::size32_t sgl::buffer_i::size() const
+size32_t buffer_i::size() _SGL_SAFE
 {
     int size = 0;
 
@@ -59,12 +67,12 @@ sgl::size32_t sgl::buffer_i::size() const
     return static_cast<size32_t>(size);
 }
 
-sgl::detail::instance_ref<sgl::buffer_i> sgl::buffer_i::ref()
+buffer buffer_i::ref() _SGL_NOTHROW
 {
-    return sgl::detail::instance_ref<buffer_i>(*this);
+    return buffer(*this);
 }
 
-void sgl::buffer_i::set_binding_target(binding_target target) noexcept
+void buffer_i::set_binding_target(binding_target target) _SGL_NOTHROW
 {
     current_binding_target = target;
 }

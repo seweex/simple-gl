@@ -14,9 +14,10 @@ namespace sgl
     public:
 
         context(u32 mj, u32 mn, bool compat);
-        ~context();
+        ~context() _SGL_NOTHROW;
 
-        template <typename T> detail::instance_ref<typename T::type> make()
+        template <typename T> 
+        inline detail::instance_ref<typename T::type> make() _SGL_NOTHROW
         {
             static_assert(std::is_base_of<detail::i_instance, typename T::type>::value, "invalid T type");
 
@@ -26,10 +27,12 @@ namespace sgl
 
             return obj->ref();
         }
-        window make(size32_t width, size32_t height, lpcstr title, bool resizeable);
-        shader make(shader_i::type type);
 
-        template <typename T> inline void destroy(T& obj)
+        window make(size32_t width, size32_t height, lpcstr title, bool resizeable);
+        shader make(shader_i::type type) _SGL_NOTHROW;
+
+        template <typename T> 
+        inline void destroy(T& obj) _SGL_NOTHROW
         {
             static_assert(std::is_base_of<detail::i_instance, typename T::type>::value, "invalid T type");
 

@@ -1,35 +1,35 @@
 #include "only_compile_used_libs.h"
 #include "program.h"
 
-#define UniformMatFunc(sizeX, sizeY) glUniformMatrix sizeX x sizeY f
+using namespace sgl;
 
-void sgl::program_i::initialize()
+void program_i::initialize() _SGL_NOTHROW
 {
     _handle = glCreateProgram();
 }
 
-void sgl::program_i::destroy()
+void program_i::destroy() _SGL_NOTHROW
 {
     glDeleteProgram(_handle);
     _handle = 0;
 }
 
-void sgl::program_i::bind(bool is_using) const
+void program_i::bind(bool is_using) _SGL_SAFE
 {
     glUseProgram(is_using ? _handle : 0);
 }
 
-void sgl::program_i::attach(shader &sh)
+void program_i::attach(shader &sh) _SGL_NOTHROW
 {
     glAttachShader(_handle, sh->handle());
 }
 
-void sgl::program_i::detach(shader &sh)
+void program_i::detach(shader &sh) _SGL_NOTHROW
 {
     glDetachShader(_handle, sh->handle());
 }
 
-int sgl::program_i::link() const
+int program_i::link() _SGL_SAFE
 {
     glLinkProgram(_handle);
 
@@ -39,7 +39,7 @@ int sgl::program_i::link() const
     return success;
 }
 
-std::string sgl::program_i::log() const
+std::string program_i::log() _SGL_SAFE
 {
     char log[DEFAULT_INFO_LOG_SIZE];
     glGetProgramInfoLog(_handle, DEFAULT_INFO_LOG_SIZE, 0, log);
@@ -47,168 +47,13 @@ std::string sgl::program_i::log() const
     return std::string{log};
 }
 
-void sgl::program_i::compute(glm::i32vec3 groups, bool barrier)
+void program_i::compute(glm::i32vec3 groups, bool barrier) _SGL_NOTHROW
 {
     glDispatchCompute(UNWRAP_VEC3(groups));
     glMemoryBarrier(GL_SHADER_STORAGE_BARRIER_BIT);
 }
 
-sgl::detail::instance_ref<sgl::program_i> sgl::program_i::ref()
+program sgl::program_i::ref() _SGL_NOTHROW
 {
-    return detail::instance_ref<program_i>(*this);
-}
-
-
-template<>
-void sgl::program_i::uniform(lpcstr name, int data)
-{
-    bind();
-
-    u32 pos = glGetUniformLocation(_handle, name);
-    glUniform1i(pos, data);
-
-    bind(0);
-}
-
-template<>
-void sgl::program_i::uniform(lpcstr name, float data)
-{
-    bind();
-
-    u32 pos = glGetUniformLocation(_handle, name);
-    glUniform1f(pos, data);
-
-    bind(0);
-}
-
-template<>
-void sgl::program_i::uniform(lpcstr name, vec2 data)
-{
-    bind();
-
-    u32 pos = glGetUniformLocation(_handle, name);
-    glUniform2f(pos, UNWRAP_VEC2(data));
-
-    bind(0);
-}
-
-template<>
-void sgl::program_i::uniform(lpcstr name, vec3 data)
-{
-    bind();
-
-    u32 pos = glGetUniformLocation(_handle, name);
-    glUniform3f(pos, UNWRAP_VEC3(data));
-
-    bind(0);
-}
-
-template<>
-void sgl::program_i::uniform(lpcstr name, vec4 data)
-{
-    bind();
-
-    u32 pos = glGetUniformLocation(_handle, name);
-    glUniform4f(pos, UNWRAP_VEC4(data));
-
-    bind(0);
-}
-
-template<>
-void sgl::program_i::uniform(lpcstr name, mat4 data)
-{
-    bind();
-
-    u32 pos = glGetUniformLocation(_handle, name);
-    glUniformMatrix4fv(pos, 1, 0, &data[0][0]);
-
-    bind(0);
-}
-
-template<>
-void sgl::program_i::uniform(lpcstr name, glm::mat3 data)
-{
-    bind();
-
-    u32 pos = glGetUniformLocation(_handle, name);
-    glUniformMatrix3fv(pos, 1, 0, &data[0][0]);
-
-    bind(0);
-}
-
-template<>
-void sgl::program_i::uniform(lpcstr name, glm::mat2 data)
-{
-    bind();
-
-    u32 pos = glGetUniformLocation(_handle, name);
-    glUniformMatrix2fv(pos, 1, 0, &data[0][0]);
-
-    bind(0);
-}
-
-template<>
-void sgl::program_i::uniform(lpcstr name, size32_t size, const float* data)
-{
-    bind();
-
-    u32 pos = glGetUniformLocation(_handle, name);
-    glUniform1fv(pos, size, data);
-
-    bind(0);
-}
-
-template<>
-void sgl::program_i::uniform(lpcstr name, size32_t size, const vec2* data)
-{
-    bind();
-
-    u32 pos = glGetUniformLocation(_handle, name);
-    glUniform2fv(pos, size, &data[0][0]);
-
-    bind(0);
-}
-
-template<>
-void sgl::program_i::uniform(lpcstr name, size32_t size, const vec3* data)
-{
-    bind();
-
-    u32 pos = glGetUniformLocation(_handle, name);
-    glUniform3fv(pos, size, &data[0][0]);
-
-    bind(0);
-}
-
-template<>
-void sgl::program_i::uniform(lpcstr name, size32_t size, const vec4* data)
-{
-    bind();
-
-    u32 pos = glGetUniformLocation(_handle, name);
-    glUniform4fv(pos, size, &data[0][0]);
-
-    bind(0);
-}
-
-template<>
-void sgl::program_i::uniform(lpcstr name, size32_t size, const mat4* data)
-{
-    bind();
-
-    u32 pos = glGetUniformLocation(_handle, name);
-    glUniformMatrix4fv(pos, size, 0, (float*)& data);
-
-    bind(0);
-}
-
-template<>
-void sgl::program_i::uniform(lpcstr name, size32_t size, const int* data)
-{
-    bind();
-
-    u32 pos = glGetUniformLocation(_handle, name);
-    glUniform1iv(pos, size, data);
-
-    bind(0);
+    return program(*this);
 }
