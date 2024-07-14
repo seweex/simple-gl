@@ -33,10 +33,11 @@ namespace sgl
         void key_callback(winkey_fn func) _SGL_NOTHROW;
         void set(param pm, bool value) _SGL_NOTHROW;
         void viewport(vec2 size) _SGL_NOTHROW;
+        void swap_interval(size32_t interval) _SGL_NOTHROW;
 
         void clear(vec3 color) _SGL_NOTHROW;
         void clear() _SGL_NOTHROW;
-
+        
         void update() _SGL_NOTHROW;
         bool closing() _SGL_SAFE;
 

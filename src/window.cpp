@@ -38,6 +38,11 @@ void window::viewport(vec2 size) _SGL_NOTHROW
     glViewport(0, 0, static_cast<int>(size.x), static_cast<int>(size.y));
 }
 
+void window::swap_interval(size32_t interval) _SGL_NOTHROW
+{
+    glfwSwapInterval(interval);
+}
+
 void window::clear(vec3 color) _SGL_NOTHROW
 {
     glClearColor(UNWRAP_VEC3(color), 1.f);
