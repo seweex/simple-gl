@@ -25,7 +25,6 @@ using namespace sgl;
     glm::vec3[],
     glm::vec4[],
 
-    glm::mat2[],
     glm::mat3[],
     glm::mat4[],
 */
@@ -226,13 +225,3 @@ _SGL_TEMPLATE bool program_i::uniform(lpcstr name, size32_t size, const glm::mat
     bind(0);
     return false;
 }
-
-//_SGL_TEMPLATE void program_i::uniform(lpcstr name, size32_t size, const glm::mat4* data) _SGL_NOTHROW
-//{
-//    bind();
-//
-//    u32 pos = glGetUniformLocation(_handle, name);
-//    glUniformMatrix4fv(pos, size, 0, (float*)&data);
-//
-//    bind(0);
-//}

@@ -13,6 +13,9 @@ void vertex_array_i::destroy() _SGL_NOTHROW
 {
     glDeleteVertexArrays(1, &_handle);
     _handle = 0;
+
+    for (auto& buff : _binded_buffers)
+        buff.second->destroy();
 }
 
 void vertex_array_i::bind(bool is_using) _SGL_SAFE

@@ -32,12 +32,12 @@
     <ClInclude Include="include\window.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="program_uniforms.cpp" />
     <ClCompile Include="src\buffer.cpp" />
     <ClCompile Include="src\context.cpp" />
     <ClCompile Include="src\glad.c" />
     <ClCompile Include="src\instances.cpp" />
     <ClCompile Include="src\program.cpp" />
+    <ClCompile Include="src\program_uniforms.cpp" />
     <ClCompile Include="src\shader.cpp" />
     <ClCompile Include="src\texture.cpp" />
     <ClCompile Include="src\vertex_array.cpp" />
